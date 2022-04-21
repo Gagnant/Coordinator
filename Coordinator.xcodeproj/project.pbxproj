@@ -11,6 +11,12 @@
 		46E470BB28118D6300896040 /* Coordinator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46E470B028118D6300896040 /* Coordinator.framework */; };
 		46E470C028118D6300896040 /* CoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470BF28118D6300896040 /* CoordinatorTests.swift */; };
 		46E470C128118D6300896040 /* Coordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = 46E470B328118D6300896040 /* Coordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		46E470D1281191D600896040 /* RouterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D0281191D600896040 /* RouterType.swift */; };
+		46E470D3281191EB00896040 /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D2281191EB00896040 /* CoordinatorType.swift */; };
+		46E470D5281191F600896040 /* GenericRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D4281191F600896040 /* GenericRouter.swift */; };
+		46E470D7281191FF00896040 /* AnyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D6281191FF00896040 /* AnyCoordinator.swift */; };
+		46E470D92811920700896040 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D82811920700896040 /* Coordinator.swift */; };
+		46E470DB2811921000896040 /* RoutingBatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470DA2811921000896040 /* RoutingBatch.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +38,12 @@
 		46E470CC28118F3E00896040 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		46E470CD28118F3E00896040 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		46E470CE28118FCD00896040 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		46E470D0281191D600896040 /* RouterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouterType.swift; sourceTree = "<group>"; };
+		46E470D2281191EB00896040 /* CoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
+		46E470D4281191F600896040 /* GenericRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenericRouter.swift; sourceTree = "<group>"; };
+		46E470D6281191FF00896040 /* AnyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCoordinator.swift; sourceTree = "<group>"; };
+		46E470D82811920700896040 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		46E470DA2811921000896040 /* RoutingBatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingBatch.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +107,12 @@
 			isa = PBXGroup;
 			children = (
 				46E470B328118D6300896040 /* Coordinator.h */,
+				46E470D0281191D600896040 /* RouterType.swift */,
+				46E470D2281191EB00896040 /* CoordinatorType.swift */,
+				46E470D4281191F600896040 /* GenericRouter.swift */,
+				46E470D6281191FF00896040 /* AnyCoordinator.swift */,
+				46E470D82811920700896040 /* Coordinator.swift */,
+				46E470DA2811921000896040 /* RoutingBatch.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -216,7 +234,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46E470D5281191F600896040 /* GenericRouter.swift in Sources */,
+				46E470D1281191D600896040 /* RouterType.swift in Sources */,
+				46E470D92811920700896040 /* Coordinator.swift in Sources */,
 				46E470B528118D6300896040 /* Coordinator.docc in Sources */,
+				46E470D7281191FF00896040 /* AnyCoordinator.swift in Sources */,
+				46E470D3281191EB00896040 /* CoordinatorType.swift in Sources */,
+				46E470DB2811921000896040 /* RoutingBatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,6 +440,7 @@
 		46E470C828118D6300896040 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -431,6 +456,7 @@
 		46E470C928118D6300896040 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
