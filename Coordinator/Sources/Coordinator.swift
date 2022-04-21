@@ -23,14 +23,12 @@ open class Coordinator<RouteType>: CoordinatorType {
     /// - NOTE: Coordinator is weakly referenced so make sure to keep reference to it elsewhere.
     open func addChild(_ coordinator: AnyCoordinator) {
         removeNilChildren()
-        let box = WeakAnyCoordinatorBox(coordinator: coordinator)
-        _children.append(box)
+        _children.append(coordinator.weak)
     }
 
     open func removeChild(_ coordinator: AnyCoordinator) {
         removeNilChildren()
-        let wrappedCoordinator = AnyCoordinator(coordinator: coordinator)
-        _children = _children.filter { $0.coordinator?.base !== wrappedCoordinator.base }
+        _children = _children.filter { $0.coordinator?.base !== coordinator.base }
     }
 
     open func start() {
@@ -51,26 +49,11 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     // MARK: - Private Properties
 
-    private var _children: [WeakAnyCoordinatorBox]
+    private var _children: [AnyCoordinatorWeakBox]
 
     // MARK: - Private Methods
 
     private func removeNilChildren() {
         _children = _children.filter { $0.coordinator != nil }
     }
-}
-
-private final class WeakAnyCoordinatorBox {
-
-    var coordinator: AnyCoordinator? {
-        return _coordinator()
-    }
-
-    init<Coordinator: CoordinatorType>(coordinator: Coordinator) {
-        _coordinator = { [weak coordinator] in
-            coordinator.map(AnyCoordinator.init)
-        }
-    }
-
-    private let _coordinator: () -> AnyCoordinator?
 }

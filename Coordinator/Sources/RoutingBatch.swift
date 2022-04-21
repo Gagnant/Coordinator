@@ -8,7 +8,7 @@
 public struct RoutingBatch {
 
     public init<Coordinator: CoordinatorType>(coordinator: Coordinator) {
-        self.coordinator = AnyCoordinator(coordinator: coordinator)
+        self.coordinator = AnyCoordinator(coordinator)
     }
 
     /// Starts transition to profile.
