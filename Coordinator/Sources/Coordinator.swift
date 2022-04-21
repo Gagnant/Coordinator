@@ -7,19 +7,8 @@
 
 open class Coordinator<RouteType>: CoordinatorType {
 
-    public init<Coordinator: CoordinatorType>(parent: Coordinator) {
-        _parent = WeakAnyCoordinatorBox(coordinator: parent)
-        _children = []
-    }
-
     public init() {
-        _parent = nil
         _children = []
-    }
-
-    /// Parent coordinator if any.
-    open var parent: AnyCoordinator? {
-        return _parent?.coordinator
     }
 
     /// The child coordinators that are currently in the hierarchy.
@@ -45,7 +34,7 @@ open class Coordinator<RouteType>: CoordinatorType {
     }
 
     open func start() {
-        parent?.addChild(self)
+        // NOP
     }
 
     /// - NOTE: Method could be called to automatically end child coordinators and perform clean-up. In case of fully
@@ -54,7 +43,6 @@ open class Coordinator<RouteType>: CoordinatorType {
         children.forEach { coordintor in
             coordintor.end()
         }
-        parent?.removeChild(self)
     }
 
     open func trigger(route: RouteType) -> Bool {
@@ -63,7 +51,6 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     // MARK: - Private Properties
 
-    private var _parent: WeakAnyCoordinatorBox?
     private var _children: [WeakAnyCoordinatorBox]
 
     // MARK: - Private Methods
