@@ -11,10 +11,10 @@ public protocol CoordinatorType: RouterType {
     var children: [AnyCoordinator] { get }
 
     /// This method adds a child to a coordinator's children.
-    func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator)
+    func addChild(_ coordinator: AnyCoordinator)
 
     /// This method removes a child to a coordinator's children.
-    func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator)
+    func removeChild(_ coordinator: AnyCoordinator)
 
     /// Starts coordinator.
     func start()

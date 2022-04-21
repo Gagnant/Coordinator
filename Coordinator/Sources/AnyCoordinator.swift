@@ -7,19 +7,24 @@
 
 public final class AnyCoordinator: CoordinatorType {
 
-    init<Coordinator: CoordinatorType>(coordinator: Coordinator) {
-        self.base = coordinator
-        self.coordinator = AnyCoordinatorBox(coordinator: coordinator)
+    public init<Coordinator: CoordinatorType>(coordinator: Coordinator) {
+        if let coordinator = coordinator as? AnyCoordinator {
+            self.base = coordinator.base
+            self.coordinator = coordinator.coordinator
+        } else {
+            self.base = coordinator
+            self.coordinator = AnyCoordinatorBox(coordinator: coordinator)
+        }
     }
 
     public let base: AnyObject
 
-    public func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
-        coordinator.addChild(coordinator)
+    public func addChild(_ coordinator: AnyCoordinator) {
+        self.coordinator.addChild(coordinator)
     }
 
-    public func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
-        coordinator.removeChild(coordinator)
+    public func removeChild(_ coordinator: AnyCoordinator) {
+        self.coordinator.removeChild(coordinator)
     }
 
     public func start() {
@@ -46,11 +51,11 @@ public final class AnyCoordinator: CoordinatorType {
 
 private class AnyCoordinatorBase: CoordinatorType {
 
-    func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    func addChild(_ coordinator: AnyCoordinator) {
         fatalError("Must override")
     }
 
-    func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    func removeChild(_ coordinator: AnyCoordinator) {
         fatalError("Must override")
     }
 
@@ -77,11 +82,11 @@ private final class AnyCoordinatorBox<Coordinator: CoordinatorType>: AnyCoordina
         self.coordinator = coordinator
     }
 
-    override func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    override func addChild(_ coordinator: AnyCoordinator) {
         self.coordinator.addChild(coordinator)
     }
 
-    override func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    override func removeChild(_ coordinator: AnyCoordinator) {
         self.coordinator.removeChild(coordinator)
     }
 

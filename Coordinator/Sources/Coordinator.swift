@@ -20,14 +20,14 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     // MARK: - CoordinatorType
 
-    /// - NOTE: Coordinator is weakly referenced so make sure to keep reference to elsewhere.
-    open func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    /// - NOTE: Coordinator is weakly referenced so make sure to keep reference to it elsewhere.
+    open func addChild(_ coordinator: AnyCoordinator) {
         removeNilChildren()
         let box = WeakAnyCoordinatorBox(coordinator: coordinator)
         _children.append(box)
     }
 
-    open func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    open func removeChild(_ coordinator: AnyCoordinator) {
         removeNilChildren()
         let wrappedCoordinator = AnyCoordinator(coordinator: coordinator)
         _children = _children.filter { $0.coordinator?.base !== wrappedCoordinator.base }
