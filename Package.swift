@@ -16,13 +16,12 @@ let package = Package(
         .target(
             name: "Coordinator",
             dependencies: [],
-            sources: ["Coordinator/Sources"],
-            exclude: ["Coordinator.h"],
+            path: "Coordinator/Sources"
         ),
         .testTarget(
             name: "CoordinatorTests",
             dependencies: ["Coordinator"],
-            sources: ["CoordinatorTests/Sources"]
+            path: "CoordinatorTests/Sources"
         )
     ]
 )
