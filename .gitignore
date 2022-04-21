@@ -1,0 +1,18 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+Carthage
+Frameworks
+.idea
+Coordinator.xcodeproj/project.xcworkspace/xcuserdata
+/fastlane/report.xml -- temporary fastlane profiling data
+/fastlane/Error*.png -- temporary `deliver` error output
+/fastlane/Preview.html -- temporary `deliver` preview output
+/fastlane/screenshots/*/*-portrait.png -- generated screenshots
+/fastlane/screenshots/*/*-landscape.png -- generated screenshots
+/fastlane/screenshots/*/*-portrait_framed.png -- generated screenshots, framed
+/fastlane/screenshots/*/*-landscape_framed.png -- generated screenshots, framed
+/fastlane/screenshots/screenshots.html -- generated screenshot index
+report.xml
+*.ipa
+Pods/
+*.zip
+xcuserdata/
