@@ -31,6 +31,7 @@
 		46E470BF28118D6300896040 /* CoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTests.swift; sourceTree = "<group>"; };
 		46E470CC28118F3E00896040 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		46E470CD28118F3E00896040 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		46E470CE28118FCD00896040 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +60,7 @@
 				46E470BE28118D6300896040 /* CoordinatorTests */,
 				46E470CC28118F3E00896040 /* LICENSE */,
 				46E470CD28118F3E00896040 /* README.md */,
+				46E470CE28118FCD00896040 /* Package.swift */,
 				46E470B128118D6300896040 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,7 +86,7 @@
 		46E470BE28118D6300896040 /* CoordinatorTests */ = {
 			isa = PBXGroup;
 			children = (
-				46E470BF28118D6300896040 /* CoordinatorTests.swift */,
+				46E470CF281190A600896040 /* Sources */,
 			);
 			path = CoordinatorTests;
 			sourceTree = "<group>";
@@ -93,6 +95,14 @@
 			isa = PBXGroup;
 			children = (
 				46E470B328118D6300896040 /* Coordinator.h */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		46E470CF281190A600896040 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				46E470BF28118D6300896040 /* CoordinatorTests.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
