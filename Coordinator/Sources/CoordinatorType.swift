@@ -22,3 +22,11 @@ public protocol CoordinatorType: RouterType {
     /// Ends coordinator.
     func end()
 }
+
+extension CoordinatorType {
+
+    /// Ends all existing children.
+    func endChildren() {
+        children.forEach { coordinator in coordinator.end() }
+    }
+}
