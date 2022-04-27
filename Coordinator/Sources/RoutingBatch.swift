@@ -13,9 +13,6 @@ public struct RoutingBatch {
 
     /// Starts transition to profile.
     public func trigger(routes: Any...) -> Bool {
-        coordinator.children.forEach { coordinator in
-            coordinator.end()
-        }
         var nextCoordinator: AnyCoordinator? = coordinator
         for route in routes {
             guard nextCoordinator != nil else {
