@@ -11,24 +11,30 @@ open class Coordinator<RouteType>: CoordinatorType {
         _children = []
     }
 
+    open var parent: AnyCoordinator? {
+        get { _parent?.coordinator }
+        set {
+            _parent = newValue.map(AnyCoordinatorWeakBox.init)
+        }
+    }
+
     /// The child coordinators that are currently in the hierarchy.
     /// When performing a transition, children are automatically added and removed from this array.
     open var children: [AnyCoordinator] {
-        removeNilChildren()
-        return _children.compactMap(\.coordinator)
+        removeNotOperationalChildren()
+        return _children
     }
-
-    // MARK: - CoordinatorType
 
     /// - NOTE: Coordinator is weakly referenced so make sure to keep reference to it elsewhere.
     open func addChild(_ coordinator: AnyCoordinator) {
-        removeNilChildren()
-        _children.append(coordinator.weak)
+        _children.append(coordinator)
+        coordinator.parent = AnyCoordinator(self)
     }
 
     open func removeChild(_ coordinator: AnyCoordinator) {
-        removeNilChildren()
-        _children = _children.filter { $0.coordinator?.base !== coordinator.base }
+        assert(coordinator.parent?.base === self)
+        coordinator.parent = nil
+        _children = _children.filter { $0.base !== coordinator.base }
     }
 
     open func start() {
@@ -47,13 +53,18 @@ open class Coordinator<RouteType>: CoordinatorType {
         fatalError("Not implemented")
     }
 
+    open var isOperational: Bool {
+        fatalError("Not implemented")
+    }
+
     // MARK: - Private Properties
 
-    private var _children: [AnyCoordinatorWeakBox]
+    private var _children: [AnyCoordinator]
+    private var _parent: AnyCoordinatorWeakBox?
 
     // MARK: - Private Methods
 
-    private func removeNilChildren() {
-        _children = _children.filter { $0.coordinator != nil }
+    private func removeNotOperationalChildren() {
+        _children = _children.filter { !$0.isOperational }
     }
 }

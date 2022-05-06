@@ -7,6 +7,9 @@
 
 public protocol CoordinatorType: RouterType {
 
+    /// Returns parent coordinator.
+    var parent: AnyCoordinator? { get }
+
     /// Coordinator's children list.
     var children: [AnyCoordinator] { get }
 
@@ -16,11 +19,17 @@ public protocol CoordinatorType: RouterType {
     /// This method removes a child to a coordinator's children.
     func removeChild(_ coordinator: AnyCoordinator)
 
+    ///
+    func didMove(toParent: AnyCoordinator?)
+
     /// Starts coordinator.
     func start()
 
     /// Ends coordinator.
     func end()
+
+    /// Coordinator is meant to be operational if it was started but not ended.
+    var isOperational: Bool { get }
 }
 
 extension CoordinatorType {

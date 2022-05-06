@@ -50,6 +50,15 @@ public final class AnyCoordinator: CoordinatorType {
         return coordinator.children
     }
 
+    public var parent: AnyCoordinator? {
+        get { coordinator.parent }
+        set { coordinator.parent = newValue }
+    }
+
+    public var isOperational: Bool {
+        return coordinator.isOperational
+    }
+
     // MARK: - Internal
 
     /// Returns box that weakly references value wrapped by this instance.
@@ -83,6 +92,15 @@ private class AnyCoordinatorBase: CoordinatorType {
     }
 
     var children: [AnyCoordinator] {
+        fatalError("Must override")
+    }
+
+    var parent: AnyCoordinator? {
+        get { fatalError("Must override") }
+        set { fatalError("Must override") }
+    }
+
+    var isOperational: Bool {
         fatalError("Must override")
     }
 }
@@ -119,6 +137,15 @@ private final class AnyCoordinatorBox<Coordinator: CoordinatorType>: AnyCoordina
 
     override var children: [AnyCoordinator] {
         return coordinator.children
+    }
+
+    override var parent: AnyCoordinator? {
+        get { return coordinator.parent }
+        set { coordinator.parent = newValue }
+    }
+
+    override var isOperational: Bool {
+        return coordinator.isOperational
     }
 
     // MARK: - Private Properties
