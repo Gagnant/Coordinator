@@ -7,20 +7,17 @@
 
 public protocol CoordinatorType: RouterType {
 
-    /// Returns parent coordinator.
-    var parent: AnyCoordinator? { get }
-
-    /// Coordinator's children list.
-    var children: [AnyCoordinator] { get }
-
     /// This method adds a child to a coordinator's children.
     func addChild(_ coordinator: AnyCoordinator)
 
     /// This method removes a child to a coordinator's children.
     func removeChild(_ coordinator: AnyCoordinator)
 
-    ///
-    func didMove(toParent: AnyCoordinator?)
+    /// Returns parent coordinator.
+    var parent: AnyCoordinator? { get set }
+
+    /// Coordinator's children list.
+    var children: [AnyCoordinator] { get }
 
     /// Starts coordinator.
     func start()

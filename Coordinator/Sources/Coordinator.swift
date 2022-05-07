@@ -13,9 +13,7 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     open var parent: AnyCoordinator? {
         get { _parent?.coordinator }
-        set {
-            _parent = newValue.map(AnyCoordinatorWeakBox.init)
-        }
+        set { setParentCoordinator(newValue) }
     }
 
     /// The child coordinators that are currently in the hierarchy.
@@ -27,14 +25,21 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     /// - NOTE: Coordinator is weakly referenced so make sure to keep reference to it elsewhere.
     open func addChild(_ coordinator: AnyCoordinator) {
+        guard coordinator.parent == nil else {
+            assertionFailure("Given coordinator already has parent.")
+            return
+        }
         _children.append(coordinator)
         coordinator.parent = AnyCoordinator(self)
     }
 
     open func removeChild(_ coordinator: AnyCoordinator) {
-        assert(coordinator.parent?.base === self)
-        coordinator.parent = nil
+        guard coordinator.parent?.base === self else {
+            assertionFailure("Given coordinator is not a child of self.")
+            return
+        }
         _children = _children.filter { $0.base !== coordinator.base }
+        coordinator.parent = nil
     }
 
     open func start() {
@@ -46,15 +51,17 @@ open class Coordinator<RouteType>: CoordinatorType {
     open func end() {
         children.forEach { coordintor in
             coordintor.end()
+            removeChild(coordintor)
         }
     }
 
+    @discardableResult
     open func trigger(route: RouteType) -> Bool {
-        fatalError("Not implemented")
+        fatalError("Must override!")
     }
 
     open var isOperational: Bool {
-        fatalError("Not implemented")
+        fatalError("Must override!")
     }
 
     // MARK: - Private Properties
@@ -66,5 +73,15 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     private func removeNotOperationalChildren() {
         _children = _children.filter { !$0.isOperational }
+    }
+
+    private func setParentCoordinator(_ coordinator: AnyCoordinator?) {
+        let children = coordinator?.children.map(\.base) ?? []
+        let isParent = children.contains { $0 === self }
+        guard isParent else {
+            assertionFailure("Self is not a child of given coordinator.")
+            return
+        }
+        _parent = coordinator?.weak
     }
 }

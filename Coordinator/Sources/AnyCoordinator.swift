@@ -33,6 +33,15 @@ public final class AnyCoordinator: CoordinatorType {
         self.coordinator.removeChild(coordinator)
     }
 
+    public var parent: AnyCoordinator? {
+        get { coordinator.parent }
+        set { coordinator.parent = newValue }
+    }
+
+    public var children: [AnyCoordinator] {
+        return coordinator.children
+    }
+
     public func start() {
         coordinator.start()
     }
@@ -41,22 +50,13 @@ public final class AnyCoordinator: CoordinatorType {
         coordinator.end()
     }
 
+    public var isOperational: Bool {
+        return coordinator.isOperational
+    }
+
     @discardableResult
     public func trigger(route: Any) -> Bool {
         return coordinator.trigger(route: route)
-    }
-
-    public var children: [AnyCoordinator] {
-        return coordinator.children
-    }
-
-    public var parent: AnyCoordinator? {
-        get { coordinator.parent }
-        set { coordinator.parent = newValue }
-    }
-
-    public var isOperational: Bool {
-        return coordinator.isOperational
     }
 
     // MARK: - Internal
@@ -79,6 +79,15 @@ private class AnyCoordinatorBase: CoordinatorType {
         fatalError("Must override")
     }
 
+    var parent: AnyCoordinator? {
+        get { fatalError("Must override") }
+        set { fatalError("Must override") }
+    }
+
+    var children: [AnyCoordinator] {
+        fatalError("Must override")
+    }
+
     func start() {
         fatalError("Must override")
     }
@@ -87,20 +96,11 @@ private class AnyCoordinatorBase: CoordinatorType {
         fatalError("Must override")
     }
 
-    func trigger(route: Any) -> Bool {
-        fatalError("Must override")
-    }
-
-    var children: [AnyCoordinator] {
-        fatalError("Must override")
-    }
-
-    var parent: AnyCoordinator? {
-        get { fatalError("Must override") }
-        set { fatalError("Must override") }
-    }
-
     var isOperational: Bool {
+        fatalError("Must override")
+    }
+
+    func trigger(route: Any) -> Bool {
         fatalError("Must override")
     }
 }
@@ -119,6 +119,15 @@ private final class AnyCoordinatorBox<Coordinator: CoordinatorType>: AnyCoordina
         self.coordinator.removeChild(coordinator)
     }
 
+    override var parent: AnyCoordinator? {
+        get { return coordinator.parent }
+        set { coordinator.parent = newValue }
+    }
+
+    override var children: [AnyCoordinator] {
+        return coordinator.children
+    }
+
     override func start() {
         coordinator.start()
     }
@@ -127,25 +136,16 @@ private final class AnyCoordinatorBox<Coordinator: CoordinatorType>: AnyCoordina
         coordinator.end()
     }
 
+    override var isOperational: Bool {
+        return coordinator.isOperational
+    }
+
     override func trigger(route: Any) -> Bool {
         guard let route = route as? Coordinator.RouteType else {
             assertionFailure("Unsupported route type")
             return false
         }
         return coordinator.trigger(route: route)
-    }
-
-    override var children: [AnyCoordinator] {
-        return coordinator.children
-    }
-
-    override var parent: AnyCoordinator? {
-        get { return coordinator.parent }
-        set { coordinator.parent = newValue }
-    }
-
-    override var isOperational: Bool {
-        return coordinator.isOperational
     }
 
     // MARK: - Private Properties
