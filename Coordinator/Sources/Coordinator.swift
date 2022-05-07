@@ -13,7 +13,7 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     open var parent: AnyCoordinator? {
         get { _parent?.coordinator }
-        set { setParentCoordinator(newValue) }
+        set { _parent = newValue?.weak }
     }
 
     /// The child coordinators that are currently in the hierarchy.
@@ -72,16 +72,6 @@ open class Coordinator<RouteType>: CoordinatorType {
     // MARK: - Private Methods
 
     private func removeNotOperationalChildren() {
-        _children = _children.filter { !$0.isOperational }
-    }
-
-    private func setParentCoordinator(_ coordinator: AnyCoordinator?) {
-        let children = coordinator?.children.map(\.base) ?? []
-        let isParent = children.contains { $0 === self }
-        guard isParent else {
-            assertionFailure("Self is not a child of given coordinator.")
-            return
-        }
-        _parent = coordinator?.weak
+        _children = _children.filter { $0.isOperational }
     }
 }

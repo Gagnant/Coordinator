@@ -8,29 +8,36 @@
 import XCTest
 @testable import Coordinator
 
-class CoordinatorTests: XCTestCase {
+final class CoordinatorTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    func testAddChildSetsParent() {
+        let coordinator = Coordinator<RouteMock>()
+        let child = CoordinatorMock(isOperational: true)
+        coordinator.addChild(AnyCoordinator(child))
+        XCTAssert(child.parent?.base === coordinator)
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    func testAddChildUpdatesChildren() {
+        let coordinator = Coordinator<RouteMock>()
+        let child = CoordinatorMock(isOperational: true)
+        coordinator.addChild(AnyCoordinator(child))
+        let hasChild = coordinator.children.map(\.base).contains { $0 === child }
+        XCTAssert(hasChild)
+    }
+}
+
+private enum RouteMock { }
+
+private final class CoordinatorMock: Coordinator<RouteMock> {
+
+    init(isOperational: Bool) {
+        _isOperational = isOperational
+        super.init()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    override var isOperational: Bool {
+        return _isOperational
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
+    private let _isOperational: Bool
 }
