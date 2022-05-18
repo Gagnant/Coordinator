@@ -8,12 +8,14 @@
 public protocol CoordinatorType: RouterType {
 
     /// This method adds a child to a coordinator's children.
-    func addChild(_ coordinator: AnyCoordinator)
+    func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator)
 
     /// This method removes a child to a coordinator's children.
-    func removeChild(_ coordinator: AnyCoordinator)
+    func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator)
 
     /// Returns parent coordinator.
+    /// - TODO: Parent is only needed to remove self as coordinator from him. Maybe replace with simple
+    /// delegate or something similar?
     var parent: AnyCoordinator? { get set }
 
     /// Coordinator's children list.
@@ -21,18 +23,4 @@ public protocol CoordinatorType: RouterType {
 
     /// Starts coordinator.
     func start()
-
-    /// Ends coordinator.
-    func end()
-
-    /// Coordinator is meant to be operational if it was started but not ended.
-    var isOperational: Bool { get }
-}
-
-extension CoordinatorType {
-
-    /// Ends all existing children.
-    func endChildren() {
-        children.forEach { coordinator in coordinator.end() }
-    }
 }

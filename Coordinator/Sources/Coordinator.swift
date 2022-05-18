@@ -19,26 +19,27 @@ open class Coordinator<RouteType>: CoordinatorType {
     /// The child coordinators that are currently in the hierarchy.
     /// When performing a transition, children are automatically added and removed from this array.
     open var children: [AnyCoordinator] {
-        removeNotOperationalChildren()
         return _children
     }
 
     /// - NOTE: Coordinator is weakly referenced so make sure to keep reference to it elsewhere.
-    open func addChild(_ coordinator: AnyCoordinator) {
+    open func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
         guard coordinator.parent == nil else {
             assertionFailure("Given coordinator already has parent.")
             return
         }
-        _children.append(coordinator)
+        let _coordinator = AnyCoordinator(coordinator)
+        _children.append(_coordinator)
         coordinator.parent = AnyCoordinator(self)
     }
 
-    open func removeChild(_ coordinator: AnyCoordinator) {
+    open func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
         guard coordinator.parent?.base === self else {
             assertionFailure("Given coordinator is not a child of self.")
             return
         }
-        _children = _children.filter { $0.base !== coordinator.base }
+        let _coordinator = AnyCoordinator(coordinator)
+        _children = _children.filter { $0.base !== _coordinator.base }
         coordinator.parent = nil
     }
 
@@ -46,21 +47,8 @@ open class Coordinator<RouteType>: CoordinatorType {
         // NOP
     }
 
-    /// - NOTE: Method could be called to automatically end child coordinators and perform clean-up. In case of fully
-    /// custom implementation be sure to remove self from parent coordinator.
-    open func end() {
-        children.forEach { coordintor in
-            coordintor.end()
-            removeChild(coordintor)
-        }
-    }
-
     @discardableResult
     open func trigger(route: RouteType) -> Bool {
-        fatalError("Must override!")
-    }
-
-    open var isOperational: Bool {
         fatalError("Must override!")
     }
 
@@ -68,10 +56,4 @@ open class Coordinator<RouteType>: CoordinatorType {
 
     private var _children: [AnyCoordinator]
     private var _parent: AnyCoordinatorWeakBox?
-
-    // MARK: - Private Methods
-
-    private func removeNotOperationalChildren() {
-        _children = _children.filter { $0.isOperational }
-    }
 }

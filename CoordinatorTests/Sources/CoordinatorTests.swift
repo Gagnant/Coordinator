@@ -7,20 +7,21 @@
 
 import XCTest
 @testable import Coordinator
+import SwiftUI
 
 final class CoordinatorTests: XCTestCase {
 
     func testAddChildSetsParent() {
         let coordinator = Coordinator<RouteMock>()
-        let child = CoordinatorMock(isOperational: true)
-        coordinator.addChild(AnyCoordinator(child))
+        let child = CoordinatorMock()
+        coordinator.addChild(AnyViewableCoordinator(child))
         XCTAssert(child.parent?.base === coordinator)
     }
 
     func testAddChildUpdatesChildren() {
         let coordinator = Coordinator<RouteMock>()
-        let child = CoordinatorMock(isOperational: true)
-        coordinator.addChild(AnyCoordinator(child))
+        let child = CoordinatorMock()
+        coordinator.addChild(child)
         let hasChild = coordinator.children.map(\.base).contains { $0 === child }
         XCTAssert(hasChild)
     }
@@ -28,16 +29,9 @@ final class CoordinatorTests: XCTestCase {
 
 private enum RouteMock { }
 
-private final class CoordinatorMock: Coordinator<RouteMock> {
+private final class CoordinatorMock: Coordinator<RouteMock>, ViewableCoordinatorType {
 
-    init(isOperational: Bool) {
-        _isOperational = isOperational
-        super.init()
+    var view: some View {
+        EmptyView()
     }
-
-    override var isOperational: Bool {
-        return _isOperational
-    }
-
-    private let _isOperational: Bool
 }

@@ -1,21 +1,19 @@
 //
-//  AnyCoordinator.swift
+//  AnyViewableCoordinator.swift
 //  Coordinator
 //
-//  Created by Andrii Vysotskyi on 21.04.2022.
+//  Created by Andrii Vysotskyi on 17.05.2022.
 //
 
-public final class AnyCoordinator: CoordinatorType {
+public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType {
 
-    public init<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
-        if let coordinator = coordinator as? AnyCoordinator {
+    public init<Coordinator: ViewableCoordinatorType>(_ coordinator: Coordinator) where Coordinator.Content == Content {
+        if let coordinator = coordinator as? AnyViewableCoordinator<Content> {
             self.base = coordinator.base
             self.coordinator = coordinator.coordinator
-            self.weak = coordinator.weak
         } else {
-            self.weak = AnyCoordinatorWeakBox(coordinator)
             self.base = coordinator
-            self.coordinator = AnyCoordinatorBox(coordinator: coordinator)
+            self.coordinator = AnyViewableCoordinatorBox(coordinator: coordinator)
         }
     }
 
@@ -51,17 +49,16 @@ public final class AnyCoordinator: CoordinatorType {
         return coordinator.trigger(route: route)
     }
 
-    // MARK: - Internal
-
-    /// Returns box that weakly references value wrapped by this instance.
-    let weak: AnyCoordinatorWeakBox
+    public var view: Content {
+        return coordinator.view
+    }
 
     // MARK: - Private
 
-    private let coordinator: AnyCoordinatorBase
+    private let coordinator: AnyViewableCoordinatorBase<Content>
 }
 
-private class AnyCoordinatorBase: CoordinatorType {
+private class AnyViewableCoordinatorBase<Content>: ViewableCoordinatorType {
 
     func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
         fatalError("Must override")
@@ -87,9 +84,13 @@ private class AnyCoordinatorBase: CoordinatorType {
     func trigger(route: Any) -> Bool {
         fatalError("Must override")
     }
+
+    var view: Content {
+        fatalError("Must override")
+    }
 }
 
-private final class AnyCoordinatorBox<Coordinator: CoordinatorType>: AnyCoordinatorBase {
+private final class AnyViewableCoordinatorBox<Coordinator: ViewableCoordinatorType>: AnyViewableCoordinatorBase<Coordinator.Content> {
 
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
@@ -124,22 +125,11 @@ private final class AnyCoordinatorBox<Coordinator: CoordinatorType>: AnyCoordina
         return coordinator.trigger(route: route)
     }
 
+    override var view: Content {
+        return coordinator.view
+    }
+
     // MARK: - Private Properties
 
     private let coordinator: Coordinator
-}
-
-final class AnyCoordinatorWeakBox {
-
-    var coordinator: AnyCoordinator? {
-        return _coordinator()
-    }
-
-    init<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
-        _coordinator = { [weak coordinator] in
-            coordinator.map(AnyCoordinator.init)
-        }
-    }
-
-    private let _coordinator: () -> AnyCoordinator?
 }

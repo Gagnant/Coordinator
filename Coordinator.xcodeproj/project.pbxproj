@@ -17,6 +17,8 @@
 		46E470D7281191FF00896040 /* AnyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D6281191FF00896040 /* AnyCoordinator.swift */; };
 		46E470D92811920700896040 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470D82811920700896040 /* Coordinator.swift */; };
 		46E470DB2811921000896040 /* RoutingBatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E470DA2811921000896040 /* RoutingBatch.swift */; };
+		C0EF5CA0283432030059603B /* ViewableCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EF5C9F283432030059603B /* ViewableCoordinatorType.swift */; };
+		C0EF5CA3283433110059603B /* AnyViewableCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EF5CA2283433110059603B /* AnyViewableCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		46E470D6281191FF00896040 /* AnyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCoordinator.swift; sourceTree = "<group>"; };
 		46E470D82811920700896040 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		46E470DA2811921000896040 /* RoutingBatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingBatch.swift; sourceTree = "<group>"; };
+		C0EF5C9F283432030059603B /* ViewableCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewableCoordinatorType.swift; sourceTree = "<group>"; };
+		C0EF5CA2283433110059603B /* AnyViewableCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyViewableCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,12 +111,14 @@
 			isa = PBXGroup;
 			children = (
 				46E470B328118D6300896040 /* Coordinator.h */,
-				46E470D0281191D600896040 /* RouterType.swift */,
+				46E470D6281191FF00896040 /* AnyCoordinator.swift */,
+				C0EF5CA2283433110059603B /* AnyViewableCoordinator.swift */,
+				46E470D82811920700896040 /* Coordinator.swift */,
 				46E470D2281191EB00896040 /* CoordinatorType.swift */,
 				46E470D4281191F600896040 /* GenericRouter.swift */,
-				46E470D6281191FF00896040 /* AnyCoordinator.swift */,
-				46E470D82811920700896040 /* Coordinator.swift */,
+				46E470D0281191D600896040 /* RouterType.swift */,
 				46E470DA2811921000896040 /* RoutingBatch.swift */,
+				C0EF5C9F283432030059603B /* ViewableCoordinatorType.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -239,7 +245,9 @@
 				46E470D92811920700896040 /* Coordinator.swift in Sources */,
 				46E470B528118D6300896040 /* Coordinator.docc in Sources */,
 				46E470D7281191FF00896040 /* AnyCoordinator.swift in Sources */,
+				C0EF5CA0283432030059603B /* ViewableCoordinatorType.swift in Sources */,
 				46E470D3281191EB00896040 /* CoordinatorType.swift in Sources */,
+				C0EF5CA3283433110059603B /* AnyViewableCoordinator.swift in Sources */,
 				46E470DB2811921000896040 /* RoutingBatch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
