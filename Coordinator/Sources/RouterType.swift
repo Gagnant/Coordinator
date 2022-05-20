@@ -8,7 +8,7 @@
 public protocol RouterType: AnyObject {
 
     /// `RouteType` defines which routes can be triggered in a certain implementation.
-    associatedtype RouteType
+    associatedtype RouteType: Coordinator.RouteType
 
     /// Triggers transition for given route.
     /// - Returns: `true` if implementation was able to trigger the transition.

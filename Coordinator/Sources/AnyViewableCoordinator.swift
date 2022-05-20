@@ -2,19 +2,14 @@
 //  AnyViewableCoordinator.swift
 //  Coordinator
 //
-//  Created by Andrii Vysotskyi on 17.05.2022.
+//  Created by Andrii Vysotskyi on 19.05.2022.
 //
 
 public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType {
 
     public init<Coordinator: ViewableCoordinatorType>(_ coordinator: Coordinator) where Coordinator.Content == Content {
-        if let coordinator = coordinator as? AnyViewableCoordinator<Content> {
-            self.base = coordinator.base
-            self.coordinator = coordinator.coordinator
-        } else {
-            self.base = coordinator
-            self.coordinator = AnyViewableCoordinatorBox(coordinator: coordinator)
-        }
+        self.base = coordinator
+        self.coordinator = AnyViewableCoordinatorBox(coordinator: coordinator)
     }
 
     /// The value wrapped by this instance.
@@ -23,57 +18,62 @@ public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType {
     /// casting operators (as?, as!, or as).
     public let base: AnyObject
 
-    public func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    public func addChild(_ coordinator: CoordinatorType) {
         self.coordinator.addChild(coordinator)
     }
 
-    public func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    public func removeChild(_ coordinator: CoordinatorType) {
         self.coordinator.removeChild(coordinator)
     }
 
-    public var parent: AnyCoordinator? {
-        get { coordinator.parent }
-        set { coordinator.parent = newValue }
+    public func didMove(toParent coordinator: CoordinatorType?) {
+        self.coordinator.didMove(toParent: coordinator)
     }
 
-    public var children: [AnyCoordinator] {
-        return coordinator.children
+    public func removeFromParent() {
+        coordinator.removeFromParent()
+    }
+
+    public var children: [CoordinatorType] {
+        coordinator.children
     }
 
     public func start() {
         coordinator.start()
     }
 
-    @discardableResult
-    public func trigger(route: Any) -> Bool {
-        return coordinator.trigger(route: route)
+    public func router<Route: Coordinator.RouteType>(for routeType: Route.Type) -> AnyRouter<Route>? {
+        coordinator.router(for: routeType)
     }
 
-    public var view: Content {
-        return coordinator.view
+    public var content: Content {
+        coordinator.content
     }
 
-    // MARK: - Private
+    // MARK: - Private Properties
 
     private let coordinator: AnyViewableCoordinatorBase<Content>
 }
 
 private class AnyViewableCoordinatorBase<Content>: ViewableCoordinatorType {
 
-    func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    func addChild(_ coordinator: CoordinatorType) {
         fatalError("Must override")
     }
 
-    func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    func removeChild(_ coordinator: CoordinatorType) {
         fatalError("Must override")
     }
 
-    var parent: AnyCoordinator? {
-        get { fatalError("Must override") }
-        set { fatalError("Must override") }
+    func didMove(toParent coordinator: CoordinatorType?) {
+        fatalError("Must override")
     }
 
-    var children: [AnyCoordinator] {
+    func removeFromParent() {
+        fatalError("Must override")
+    }
+
+    var children: [CoordinatorType] {
         fatalError("Must override")
     }
 
@@ -81,55 +81,54 @@ private class AnyViewableCoordinatorBase<Content>: ViewableCoordinatorType {
         fatalError("Must override")
     }
 
-    func trigger(route: Any) -> Bool {
+    func router<Route: Coordinator.RouteType>(for routeType: Route.Type) -> AnyRouter<Route>? {
         fatalError("Must override")
     }
 
-    var view: Content {
+    var content: Content {
         fatalError("Must override")
     }
 }
 
-private final class AnyViewableCoordinatorBox<Coordinator: ViewableCoordinatorType>: AnyViewableCoordinatorBase<Coordinator.Content> {
+private final class AnyViewableCoordinatorBox<C: ViewableCoordinatorType>: AnyViewableCoordinatorBase<C.Content> {
 
-    init(coordinator: Coordinator) {
+    init(coordinator: C) {
         self.coordinator = coordinator
     }
 
-    override func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    override func addChild(_ coordinator: CoordinatorType) {
         self.coordinator.addChild(coordinator)
     }
 
-    override func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator) {
+    override func removeChild(_ coordinator: CoordinatorType) {
         self.coordinator.removeChild(coordinator)
     }
 
-    override var parent: AnyCoordinator? {
-        get { return coordinator.parent }
-        set { coordinator.parent = newValue }
+    override func didMove(toParent coordinator: CoordinatorType?) {
+        self.coordinator.didMove(toParent: coordinator)
     }
 
-    override var children: [AnyCoordinator] {
-        return coordinator.children
+    override func removeFromParent() {
+        coordinator.removeFromParent()
+    }
+
+    override var children: [CoordinatorType] {
+        coordinator.children
     }
 
     override func start() {
         coordinator.start()
     }
 
-    override func trigger(route: Any) -> Bool {
-        guard let route = route as? Coordinator.RouteType else {
-            assertionFailure("Unsupported route type")
-            return false
-        }
-        return coordinator.trigger(route: route)
+    override func router<Route: Coordinator.RouteType>(for routeType: Route.Type) -> AnyRouter<Route>? {
+        coordinator.router(for: routeType)
     }
 
-    override var view: Content {
-        return coordinator.view
+    override var content: Content {
+        return coordinator.content
     }
 
     // MARK: - Private Properties
 
-    private let coordinator: Coordinator
+    private let coordinator: C
 }

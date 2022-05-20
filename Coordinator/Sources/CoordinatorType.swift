@@ -5,22 +5,37 @@
 //  Created by Andrii Vysotskyi on 21.04.2022.
 //
 
-public protocol CoordinatorType: RouterType {
+public protocol CoordinatorType: AnyObject {
 
     /// This method adds a child to a coordinator's children.
-    func addChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator)
+    /// If you are implementing your own coordinator, it must call the `didMove(toParent:)` method of the child
+    /// coordinator as a part of implementation.
+    func addChild(_ coordinator: CoordinatorType)
 
     /// This method removes a child to a coordinator's children.
-    func removeChild<Coordinator: CoordinatorType>(_ coordinator: Coordinator)
+    func removeChild(_ coordinator: CoordinatorType)
 
-    /// Returns parent coordinator.
-    /// - TODO: Parent is only needed to remove self as coordinator from him. Maybe replace with simple
-    /// delegate or something similar?
-    var parent: AnyCoordinator? { get set }
+    /// Called after the coordinator is added or removed from a parent coordinator.
+    /// - Parameter coordinator: The parent coordinator, or nil if there is no parent.
+    func didMove(toParent coordinator: CoordinatorType?)
+
+    /// Removes the coordinator from its parent if any.
+    /// Method automatically calls the `didMove(toParent:)` method of the child coordinator after it removes the child.
+    func removeFromParent()
 
     /// Coordinator's children list.
-    var children: [AnyCoordinator] { get }
+    var children: [CoordinatorType] { get }
 
     /// Starts coordinator.
     func start()
+
+    /// This method can be used to retrieve router to trigger the route on if the coordinator is capable to do so.
+    func router<Route: RouteType>(for routeType: Route.Type) -> AnyRouter<Route>?
+}
+
+extension CoordinatorType where Self: RouterType {
+
+    public func router<Route: Coordinator.RouteType>(for routeType: Route.Type) -> AnyRouter<Route>? {
+        return AnyRouter<RouteType>(router: self) as? AnyRouter<Route>
+    }
 }
