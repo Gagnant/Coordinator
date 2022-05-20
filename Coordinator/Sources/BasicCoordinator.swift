@@ -7,7 +7,11 @@
 
 open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, RouterType {
 
-    public private(set) var children: [CoordinatorType] = []
+    public init() {
+        children = []
+    }
+
+    public private(set) var children: [CoordinatorType]
 
     open func addChild(_ coordinator: CoordinatorType) {
         let isChild = children.contains { $0 === coordinator }
