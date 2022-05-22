@@ -18,6 +18,10 @@ public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType {
     /// casting operators (as?, as!, or as).
     public let base: AnyObject
 
+    public var id: AnyHashable {
+        self.coordinator.id
+    }
+
     public func addChild(_ coordinator: CoordinatorType) {
         self.coordinator.addChild(coordinator)
     }
@@ -57,6 +61,10 @@ public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType {
 
 private class AnyViewableCoordinatorBase<Content>: ViewableCoordinatorType {
 
+    var id: AnyHashable {
+        fatalError("Must override")
+    }
+
     func addChild(_ coordinator: CoordinatorType) {
         fatalError("Must override")
     }
@@ -94,6 +102,10 @@ private final class AnyViewableCoordinatorBox<C: ViewableCoordinatorType>: AnyVi
 
     init(coordinator: C) {
         self.coordinator = coordinator
+    }
+
+    override var id: AnyHashable {
+        self.coordinator.id
     }
 
     override func addChild(_ coordinator: CoordinatorType) {

@@ -16,4 +16,26 @@ final class BasicCoordinatorTests: XCTestCase {
         coordinator.addChild(child)
         XCTAssert(coordinator.children.contains(where: { $0 === child }))
     }
+
+    func testRemoveFromParentWhenChildIsErased() {
+        // Given
+        let coordinator = BasicCoordinator<Never>()
+        let child = ViewableCoordinatorMock()
+        let erasedChild = AnyViewableCoordinator(child)
+
+        // When
+        coordinator.addChild(erasedChild)
+        erasedChild.removeFromParent()
+
+        // Then
+        XCTAssert(coordinator.children.isEmpty)
+    }
+}
+
+final class ViewableCoordinatorMock: BasicCoordinator<Never>, ViewableCoordinatorType {
+
+    var content: Never {
+        fatalError()
+    }
+
 }

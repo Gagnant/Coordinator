@@ -7,6 +7,9 @@
 
 public protocol CoordinatorType: AnyObject {
 
+    /// The stable identity of the entity associated with this instance.
+    var id: AnyHashable { get }
+
     /// This method adds a child to a coordinator's children.
     /// If you are implementing your own coordinator, it must call the `didMove(toParent:)` method of the child
     /// coordinator as a part of implementation.
@@ -37,5 +40,12 @@ extension CoordinatorType where Self: RouterType {
 
     public func router<Route: Coordinator.RouteType>(for routeType: Route.Type) -> AnyRouter<Route>? {
         return AnyRouter<RouteType>(router: self) as? AnyRouter<Route>
+    }
+}
+
+extension CoordinatorType {
+
+    public var id: AnyHashable {
+        ObjectIdentifier(self)
     }
 }

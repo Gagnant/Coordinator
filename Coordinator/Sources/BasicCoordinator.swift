@@ -14,7 +14,7 @@ open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, 
     public private(set) var children: [CoordinatorType]
 
     open func addChild(_ coordinator: CoordinatorType) {
-        let isChild = children.contains { $0 === coordinator }
+        let isChild = children.map(\.id).contains(coordinator.id)
         guard !isChild else {
             assertionFailure("Attemped to add child that was already added previously.")
             return
@@ -24,7 +24,7 @@ open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, 
     }
 
     open func removeChild(_ coordinator: CoordinatorType) {
-        let childIndex = children.firstIndex { $0 === coordinator }
+        let childIndex = children.map(\.id).firstIndex(of: coordinator.id)
         guard let childIndex = childIndex else {
             assertionFailure("Coordinator is not a child of self.")
             return
