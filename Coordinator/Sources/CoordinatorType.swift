@@ -39,7 +39,7 @@ public protocol CoordinatorType: AnyObject {
 extension CoordinatorType where Self: RouterType {
 
     public func router<Route: Coordinator.RouteType>(for routeType: Route.Type) -> AnyRouter<Route>? {
-        return AnyRouter<RouteType>(router: self) as? AnyRouter<Route>
+        return AnyRouter<RouteType>(self) as? AnyRouter<Route>
     }
 }
 

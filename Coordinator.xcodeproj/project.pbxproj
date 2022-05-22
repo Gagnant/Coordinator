@@ -21,6 +21,7 @@
 		C0213C712837D5DB00EC551B /* RoutingBatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0213C702837D5DB00EC551B /* RoutingBatchTests.swift */; };
 		C0AAA6552836931F00E73B03 /* AnyViewableCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0AAA6542836931F00E73B03 /* AnyViewableCoordinator.swift */; };
 		C0EF5CA0283432030059603B /* ViewableCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EF5C9F283432030059603B /* ViewableCoordinatorType.swift */; };
+		C0F48BE1283AD65200CF131B /* WeakAnyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0F48BE0283AD65200CF131B /* WeakAnyRouter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		C0213C702837D5DB00EC551B /* RoutingBatchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutingBatchTests.swift; sourceTree = "<group>"; };
 		C0AAA6542836931F00E73B03 /* AnyViewableCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyViewableCoordinator.swift; sourceTree = "<group>"; };
 		C0EF5C9F283432030059603B /* ViewableCoordinatorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewableCoordinatorType.swift; sourceTree = "<group>"; };
+		C0F48BE0283AD65200CF131B /* WeakAnyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakAnyRouter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 				46E470DA2811921000896040 /* RoutingBatch.swift */,
 				C0EF5C9F283432030059603B /* ViewableCoordinatorType.swift */,
 				C0213C6E2837D4AB00EC551B /* Never+RouteType.swift */,
+				C0F48BE0283AD65200CF131B /* WeakAnyRouter.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 			files = (
 				46E470D5281191F600896040 /* AnyRouter.swift in Sources */,
 				C0213C6D2837D0AA00EC551B /* RouteType.swift in Sources */,
+				C0F48BE1283AD65200CF131B /* WeakAnyRouter.swift in Sources */,
 				C0213C6F2837D4AB00EC551B /* Never+RouteType.swift in Sources */,
 				46E470D1281191D600896040 /* RouterType.swift in Sources */,
 				46E470D92811920700896040 /* BasicCoordinator.swift in Sources */,

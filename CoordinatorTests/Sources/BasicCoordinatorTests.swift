@@ -14,7 +14,7 @@ final class BasicCoordinatorTests: XCTestCase {
         let coordinator = BasicCoordinator<Never>()
         let child = BasicCoordinator<Never>()
         coordinator.addChild(child)
-        XCTAssert(coordinator.children.contains(where: { $0 === child }))
+        XCTAssert(coordinator.children.contains(where: { $0.id == child.id }))
     }
 
     func testRemoveFromParentWhenChildIsErased() {

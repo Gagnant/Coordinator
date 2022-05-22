@@ -1,14 +1,16 @@
 //
-//  AnyRouter.swift
+//  WeakAnyRouter.swift
 //  Coordinator
 //
-//  Created by Andrii Vysotskyi on 21.04.2022.
+//  Created by Andrii Vysotskyi on 22.05.2022.
 //
 
-public final class AnyRouter<RouteType: Coordinator.RouteType>: RouterType {
+public final class WeakAnyRouter<RouteType: Coordinator.RouteType>: RouterType {
 
     public init<Router: RouterType>(_ router: Router) where Router.RouteType == RouteType {
-        triggerRoute = router.trigger(route:)
+        triggerRoute = { [weak router] route in
+            router?.trigger(route: route) ?? false
+        }
         base = router
     }
 
@@ -21,7 +23,7 @@ public final class AnyRouter<RouteType: Coordinator.RouteType>: RouterType {
     ///
     /// The base property can be cast back to its original type using one of the type
     /// casting operators (as?, as!, or as).
-    public let base: AnyObject
+    public private(set) weak var base: AnyObject?
 
     // MARK: -
 
