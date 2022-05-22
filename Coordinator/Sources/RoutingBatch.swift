@@ -13,18 +13,14 @@ public struct RoutingBatch {
 
     /// Starts transition to profile.
     public func trigger(routes: RouteType...) -> Bool {
-        var nextCoordinator: CoordinatorType? = coordinator
+        var nextCoordinators: [CoordinatorType] = [coordinator]
         for route in routes {
-            guard let coordinator = nextCoordinator else {
+            guard let coordinator = nextCoordinators.first(where: route.isExecutable(on:)),
+                  route.execute(on: coordinator) else {
                 assertionFailure("Unable to trigger route!")
                 return false
             }
-            let didTriggerRoute = route.execute(on: coordinator)
-            guard didTriggerRoute else {
-                assertionFailure("Unable to trigger route!")
-                return false
-            }
-            nextCoordinator = coordinator.children.first(where: route.isExecutable(on:))
+            nextCoordinators = coordinator.children
         }
         return true
     }
