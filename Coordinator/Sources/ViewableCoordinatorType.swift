@@ -5,7 +5,7 @@
 //  Created by Andrii Vysotskyi on 17.05.2022.
 //
 
-public protocol ViewableCoordinatorType: CoordinatorType, Identifiable {
+public protocol ViewableCoordinatorType: CoordinatorType {
 
     associatedtype Content
 

@@ -5,7 +5,7 @@
 //  Created by Andrii Vysotskyi on 19.05.2022.
 //
 
-public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType {
+public final class AnyViewableCoordinator<Content>: ViewableCoordinatorType, Identifiable {
 
     public init<Coordinator: ViewableCoordinatorType>(_ coordinator: Coordinator) where Coordinator.Content == Content {
         self.base = coordinator
