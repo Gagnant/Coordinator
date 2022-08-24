@@ -5,7 +5,7 @@
 //  Created by Andrii Vysotskyi on 21.04.2022.
 //
 
-open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, RouterType {
+open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, RouterType, Identifiable {
 
     public init() {
         children = []
@@ -16,7 +16,6 @@ open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, 
     open func addChild(_ coordinator: CoordinatorType) {
         let isChild = children.map(\.id).contains(coordinator.id)
         guard !isChild else {
-            assertionFailure("Attemped to add child that was already added previously.")
             return
         }
         children.append(coordinator)
@@ -26,7 +25,6 @@ open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, 
     open func removeChild(_ coordinator: CoordinatorType) {
         let childIndex = children.map(\.id).firstIndex(of: coordinator.id)
         guard let childIndex = childIndex else {
-            assertionFailure("Coordinator is not a child of self.")
             return
         }
         children.remove(at: childIndex)
@@ -43,16 +41,12 @@ open class BasicCoordinator<RouteType: Coordinator.RouteType>: CoordinatorType, 
                 coordinator?.removeChild(self)
             }
         } else {
-            if removeFromParentTrampoline == nil {
-                assertionFailure("Coordinator does not have a parent.")
-            }
             removeFromParentTrampoline = nil
         }
     }
 
     open func removeFromParent() {
         guard let trampoline = removeFromParentTrampoline else {
-            assertionFailure("Parent coordinator is not set.")
             return
         }
         trampoline()
